@@ -1,24 +1,22 @@
 # This is Websphere DMGR. It can be only one node.
 [dmgr]
-dmgr1.internal.example.com
+connections1.ramsit.lab
 
 # One or multiple Nodeagents
 [was_servers]
-connections1.internal.example.com
-connections2.internal.example.com
+connections1.ramsit.lab
 
 # Location of IHS server(s)
 [ihs_servers]
-ihs1.internal.example.com
-ihs2.internal.example.com
+connections1.ramsit.lab
 
 # Server hosting DB2. Automation currently doesn't support any HA on DB2 side.
 [db2_servers]
-db1.internal.example.com
+db1.ramsit.lab
 
 # Server hosting LDAP. This same server will be used for installing OpenLDAP if that gets attempted.
 [ldap_servers]
-ldap1.internal.example.com
+db1.ramsit.lab
 
 [ldap_servers:vars]
 # Set to false if you want to skip adding fake LDAP users (for example, if you are setting up production environment and you don't need them)
@@ -38,40 +36,39 @@ ihs_password=password
 
 # First node on the list becomes master, gets the folders and get them exported. Other hosts become clients.
 [nfs_servers]
-dmgr1.internal.example.com
-connections1.internal.example.com
-connections2.internal.example.com
+db1.ramsit.lab
+connections1.ramsit.lab
 
 [all:vars]
 # Download location of DB2 and the licence file
-db2_download_location=http://installer1.internal.example.com:8001/DB2
+db2_download_location=http://installer1.ramsit.lab:8001/DB2
 
 # Download location of TDI
-tdi_download_location=installer1.internal.example.com:8001/TDI
+tdi_download_location=installer1.ramsit.lab:8001/TDI
 
 # Download location of Connections Wizards for DB population
-db2_wizards_download_location=installer1.internal.example.com:8001/Connections7
+db2_wizards_download_location=installer1.ramsit.lab:8001/Connections7
 
 # Download location for IBM Installation manager
-iim_repository_url=http://installer1.internal.example.com:8001/was855
+iim_repository_url=http://installer1.ramsit.lab:8001/was855
 
 # Download location for IBM WebSphere ND & IBM Java
-was_repository_url=http://installer1.internal.example.com:8001/was855
+was_repository_url=http://installer1.ramsit.lab:8001/was855
 
 # Download location of IBM WAS ND Fixpack 18
-was_fixes_repository_url=http://installer1.internal.example.com:8001/was855FP18
+was_fixes_repository_url=http://installer1.ramsit.lab:8001/was855FP18
 
 # Download location of IBM HTTP Server
-ihs_repository_url=http://installer1.internal.example.com:8001/was855
+ihs_repository_url=http://installer1.ramsit.lab:8001/was855
 
 # Download location of IBM HTTP Server fixpacks
-ihs_fixes_repository_url=http://installer1.internal.example.com:8001/was855FP18
+ihs_fixes_repository_url=http://installer1.ramsit.lab:8001/was855FP18
 
 # Download location of HCL Connections Docs 2.0.1
-cnx_docs_download_location=http://installer1.internal.example.com:8001/Docs
+cnx_docs_download_location=http://installer1.ramsit.lab:8001/Docs
 
 # Download location for HCL Connections zip file. Used by Connections installation and TDI to get tdisol archive.
-cnx_repository_url=installer1.internal.example.com:8001/Connections7
+cnx_repository_url=installer1.ramsit.lab:8001/Connections7
 
 # Folder used for the shared data. If setting up NFS using using automation, it will be created on NFS master and exported, and then mounted by Connections
 # installation and used inside response file. 
@@ -90,18 +87,18 @@ was_username=wasadmin
 was_password=password
 #
 # This section is used when setting up OpenLDAP, when setting up TDI and when setting up WebSphere.
-ldap_server=ldap1.internal.example.com
+ldap_server=db1.ramsit.lab
 ldap_alias=ldap1
 ldap_repo=LDAP_PRODUCTION1
-ldap_bind_user=cn=Admin,dc=cxn,dc=pnp-hcl,dc=com
+ldap_bind_user=cn=Admin,dc=cxn,dc=ramsit,dc=lab
 ldap_bind_pass=password
-ldap_realm=dc=cxn,dc=pnp-hcl,dc=com
+ldap_realm=dc=cxn,dc=ramsit,dc=lab
 ldap_login_properties=uid;mail
 #
-dmgr_hostname=dmgr1.internal.example.com
-was_domainname=.internal.example.com
-domain_name=.internal.example.com
-cnx_domainname=.internal.example.com
+dmgr_hostname=connections1.ramsit.lab
+was_domainname=.ramsit.lab
+domain_name=.ramsit.lab
+cnx_domainname=.ramsit.lab
 smtp_hostname=localhost
 #
 ihs_password=password
@@ -112,43 +109,43 @@ cnx_webserver="ihs1"
 
 # Address of Haproxy. This is going to be used as an ingress inside httpd.conf for IBM HTTP server to send requests to the
 # Kubernetes cluster and Component Pack.
-cnx_component_pack_ingress="web1.internal.example.com"
+cnx_component_pack_ingress="connections1.ramsit.lab"
 
 # This is basically dynamicHost and the value that will be set there.
-cnx_application_ingress="web1.example.com"
+cnx_application_ingress="connections1.ramsit.lab"
 
 # uncomment and set this if was_servers and cnx_application_ingress are in different domain
-sso_domainname=.internal.example.com;.example.com
+sso_domainname=.ramsit.lab
 
 # Connections admin user. By default it is this one. Doesn't have to exist in the moment of cluster setup.
 connections_admin=fakeuser1
 
-cnx_node_list=['connections1', 'connections2']
-cnx_hostname_list=['connections1.internal.example.com', 'connections2.internal.example.com']
-ihs_hostname_list=['ihs1.internal.example.com', 'ihs2.internal.example.com']
+cnx_node_list=['connections1']
+cnx_hostname_list=['connections1.ramsit.lab']
+ihs_hostname_list=['connections1.ramsit.lab']
 
-common_app={ 'cluster_name': 'Infra', 'nodes':['connections1', 'connections2']}
-communities_app={ 'cluster_name': 'Infra', 'nodes':['connections1', 'connections2']}
-news_app={ 'cluster_name': 'Infra', 'nodes':['connections1', 'connections2']}
-widgets_app={ 'cluster_name': 'Infra', 'nodes':['connections1', 'connections2']}
-profiles_app={ 'cluster_name': 'Infra', 'nodes':['connections1', 'connections2']}
-search_app={ 'cluster_name': 'Infra', 'nodes':['connections1', 'connections2']}
+common_app={ 'cluster_name': 'Infra', 'nodes':['connections1']}
+communities_app={ 'cluster_name': 'Infra', 'nodes':['connections1']}
+news_app={ 'cluster_name': 'Infra', 'nodes':['connections1']}
+widgets_app={ 'cluster_name': 'Infra', 'nodes':['connections1']}
+profiles_app={ 'cluster_name': 'Infra', 'nodes':['connections1']}
+search_app={ 'cluster_name': 'Infra', 'nodes':['connections1']}
 
-homepage_app={ 'cluster_name': 'Util', 'nodes':['connections1', 'connections2']}
-moderation_app={ 'cluster_name': 'Util', 'nodes':['connections1', 'connections2']}
-rte_app={ 'cluster_name': 'Util', 'nodes':['connections1', 'connections2']}
+homepage_app={ 'cluster_name': 'Util', 'nodes':['connections1']}
+moderation_app={ 'cluster_name': 'Util', 'nodes':['connections1']}
+rte_app={ 'cluster_name': 'Util', 'nodes':['connections1']}
 
-activities_app={ 'cluster_name': 'Apps', 'nodes':['connections1', 'connections2']}
-blogs_app={ 'cluster_name': 'Apps', 'nodes':['connections1', 'connections2']}
-dogear_app={ 'cluster_name': 'Apps', 'nodes':['connections1', 'connections2']}
-files_app={ 'cluster_name': 'Apps', 'nodes':['connections1', 'connections2']}
-forums_app={ 'cluster_name': 'Apps', 'nodes':['connections1', 'connections2']}
-metrics_app={ 'cluster_name': 'Apps', 'nodes':['connections1', 'connections2']}
-mobile_app={ 'cluster_name': 'Apps', 'nodes':['connections1', 'connections2']}
-wikis_app={ 'cluster_name': 'Apps', 'nodes':['connections1', 'connections2']}
-ic360_app={ 'cluster_name': 'Apps', 'nodes':['connections1', 'connections2']}
+activities_app={ 'cluster_name': 'Apps', 'nodes':['connections1']}
+blogs_app={ 'cluster_name': 'Apps', 'nodes':['connections1']}
+dogear_app={ 'cluster_name': 'Apps', 'nodes':['connections1']}
+files_app={ 'cluster_name': 'Apps', 'nodes':['connections1']}
+forums_app={ 'cluster_name': 'Apps', 'nodes':['connections1']}
+metrics_app={ 'cluster_name': 'Apps', 'nodes':['connections1']}
+mobile_app={ 'cluster_name': 'Apps', 'nodes':['connections1']}
+wikis_app={ 'cluster_name': 'Apps', 'nodes':['connections1']}
+ic360_app={ 'cluster_name': 'Apps', 'nodes':['connections1']}
 
-push_app={ 'cluster_name': 'Push', 'nodes':['connections1', 'connections2']}
+push_app={ 'cluster_name': 'Push', 'nodes':['connections1']}
 
 
 # Set to true if you want to enable Prometheus JMX exporter and configure WAS to export metrics from one or multiple Connections
@@ -164,7 +161,7 @@ connections_auto_start_clusters='Apps Push Util Infra'
 # This is used by WebSphere, Connections and TDI.
 db_username=LCUSER
 db_password=password
-db_hostname=db1.internal.example.com
+db_hostname=db1.ramsit.lab
 db_port=50000
 db_jdbc_file=/opt/IBM/db2/V11.1/java
 db_type=DB2
@@ -177,20 +174,20 @@ db_type=DB2
 # and run needed migrations for upgrade to Connections 7. 
 #db_enable_upgrades=True
 
-activities_db={ 'server': 'db1.internal.example.com' }
-blogs_db={ 'server': 'db1.internal.example.com' }
-dogear_db={ 'server': 'db1.internal.example.com' }
-communities_db={ 'server': 'db1.internal.example.com' }
-files_db={ 'server': 'db1.internal.example.com' }
-forums_db={ 'server': 'db1.internal.example.com' }
-homepage_db={ 'server': 'db1.internal.example.com' }
-metrics_db={ 'server': 'db1.internal.example.com' }
-mobile_db={ 'server': 'db1.internal.example.com' }
-profiles_db={ 'server': 'db1.internal.example.com' }
-push_db={ 'server': 'db1.internal.example.com' }
-wikis_db={ 'server': 'db1.internal.example.com' }
-icec_db={ 'server': 'db1.internal.example.com' }
-ic360_db={ 'server': 'db1.internal.example.com' }
+activities_db={ 'server': 'db1.ramsit.lab' }
+blogs_db={ 'server': 'db1.ramsit.lab' }
+dogear_db={ 'server': 'db1.ramsit.lab' }
+communities_db={ 'server': 'db1.ramsit.lab' }
+files_db={ 'server': 'db1.ramsit.lab' }
+forums_db={ 'server': 'db1.ramsit.lab' }
+homepage_db={ 'server': 'db1.ramsit.lab' }
+metrics_db={ 'server': 'db1.ramsit.lab' }
+mobile_db={ 'server': 'db1.ramsit.lab' }
+profiles_db={ 'server': 'db1.ramsit.lab' }
+push_db={ 'server': 'db1.ramsit.lab' }
+wikis_db={ 'server': 'db1.ramsit.lab' }
+icec_db={ 'server': 'db1.ramsit.lab' }
+ic360_db={ 'server': 'db1.ramsit.lab' }
 
 cnx_enable_moderation=true
 cnx_enable_invite=true

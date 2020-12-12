@@ -1,41 +1,41 @@
 # Kubernetes masters. First in the group will become primary Kubernetes master, and used later through the scripts as such.
 [k8s_masters]
-cp1.internal.example.com
+cp1.ramsit.lab
 
 # List of all Kubernetes workers. Those workers will be joined to cluster of masters.
 [k8s_workers]
-cp1.internal.example.com
+cp1.ramsit.lab
 
 # On this host (those hosts) Helm will be set. By default 3.4.1
 [k8s_admin]
-cp1.internal.example.com
+cp1.ramsit.lab
 
 # If you are setting up Docker Registry, first node on the list will get the registry set, certificates created, and all the rest will trust this certificate
 # and be able to docker login to the Registry itself.
 [docker_registry]
-cp1.internal.example.com
+cp1.ramsit.lab
 
 # If used, this is where your Haproxy lives.
 [k8s_load_balancers]
-web1.internal.example.com
+cp1.ramsit.lab
 
 # Here will all Component Pack installation steps happen. Can be same as K8S master if masters are available, otherwise any host with kubectl and helm
 [component_pack_master]
-cp1.internal.example.com
+cp1.ramsit.lab
 
 # If you are setting NFS as well for your PV(C)s, first server on the list is going to be NFS master. Add all Kubernetes nodes to the list.
 [nfs_servers]
-cp1.internal.example.com
+cp1.ramsit.lab
 
 [nfs_servers:vars]
 nfs_export_netmask=255.255.255.0
 
 # DMGR and WAS nodes are needed for some of installation and post installation steps which include Connections configuration changes.
 [dmgr]
-connections1.internal.example.com
+connections1.ramsit.lab
 
 [was_servers]
-connections1.internal.example.com
+connections1.ramsit.lab
 
 # This will ensure that Haproxy doesn't clash with Nginx ports when collocated.
 [k8s_load_balancers:vars]
@@ -97,15 +97,15 @@ setup_ms_teams_extensions=false
 
 [all:vars]
 # URL of Docker Registry
-docker_registry_url="cp1.internal.example.com:5000"
+docker_registry_url="cp1.ramsit.lab:5000"
 # Address of Kubernetes load balancer
-load_balancer_dns=web1.internal.example.com
+load_balancer_dns=web1.ramsit.lab
 # Address of IHS (if one IHS) or DNS name pointing to load balancer pointing to IHSs.
-ic_internal="connections1.internal.example.com"
+ic_internal="connections1.ramsit.lab"
 # dynamicHost
-frontend_fqdn="web1.example.com"
-frontend_domain="example.com"
-db_server="db1.internal.example.com"
+frontend_fqdn="web1.ramsit.lab"
+frontend_domain="ramsit.lab"
+db_server="connections1.ramsit.lab"
 db_server_user="db2inst1"
 db_server_password="password"
 # Latest tested Kubernetes and Docker versions by HCL on the latest stable branch. 
@@ -114,7 +114,7 @@ docker_version=19.03.13
 calico_install_latest=True
 
 # Those variables are needed for installation and postinstallation tasks
-dmgr_hostname="connections1.internal.example.com"
+dmgr_hostname="connections1.ramsit.lab"
 was_username=wasadmin
 was_password=password
 connections_auto_start_clusters='App'
