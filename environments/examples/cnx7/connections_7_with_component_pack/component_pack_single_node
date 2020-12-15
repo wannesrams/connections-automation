@@ -54,7 +54,7 @@ single_node_installation=true
 # If set to true, number of pods in connections namespace will be scaled to the number of total workers in k8s_workers
 enable_pod_auto_scaling=True
 # Location and name of Component Pack package
-component_pack_download_location="c7installer1.internal.example.com:8001/cp"
+component_pack_download_location="wannesmac.ramsit.local:8001/cp"
 component_pack_package_name="hybridcloud_latest.zip"
 # If you are using different domains, this is needed to set up ingresses properly.
 ce_on_prem=False
