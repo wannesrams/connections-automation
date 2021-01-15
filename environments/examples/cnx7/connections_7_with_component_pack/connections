@@ -38,6 +38,7 @@ ihs_password=password
 [nfs_servers]
 db1.ramsit.lab
 connections1.ramsit.lab
+cp1.ramsit.lab
 
 [all:vars]
 # Download location of DB2 and the licence file
